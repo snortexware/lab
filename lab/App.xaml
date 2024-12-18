@@ -15,8 +15,8 @@
             <Setter Property="Background" Value="Transparent"></Setter>
             <Setter Property="Foreground" Value="Gray"></Setter>
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-            <Setter Property="Margin" Value="30 5" />
-            <Setter Property="Height" Value="35" />
+            <Setter Property="Margin" Value="0 0" />
+            <Setter Property="Height" Value="30" />
             <Setter Property="FontSize" Value="13" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -94,6 +94,43 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+
+
+        </Style>
+
+
+        <Style x:Key="txtSearchBox" TargetType="TextBox">
+            <Setter Property="Background" Value="#ffffff">
+
+            </Setter>
+            <Setter Property="Foreground" Value="#b0b9c6">
+
+            </Setter>
+            <Setter Property="BorderThickness" Value="0">
+
+            </Setter>
+            <Setter Property="FontSize" Value="12">
+
+            </Setter>
+            <Setter Property="Padding" Value="15 10"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="0 10"></Setter>
+            <Setter Property="Template">
+                <Setter.Value >
+                    <ControlTemplate x:Name="border" TargetType="TextBox">
+                        <Border CornerRadius="20" Background="{TemplateBinding Background}" SnapsToDevicePixels="True"
+                                BorderThickness="1" BorderBrush="#e0e6ed">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden">
+
+                            </ScrollViewer>
+                        </Border>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+
 
 
         </Style>

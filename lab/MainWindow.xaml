@@ -5,6 +5,7 @@
         xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="lab.MainWindow"
          Background="Transparent"
         Height="720" Width="1080"
+        WindowState="Maximized"
         WindowStyle="SingleBorderWindow"
     >
 
@@ -58,13 +59,15 @@
 
                 </DockPanel>
             </Border>
-            <Grid  Grid.Column="2" >
+            <Grid  Grid.Column="1" Grid.RowSpan="2" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto"  />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="auto" />
+
+
 
                 </Grid.RowDefinitions>
 
@@ -99,39 +102,65 @@
                     </Grid.RowDefinitions>
 
 
-                    <Grid Width="230"  Margin="15"  >
+                    <Grid Width="230"  Margin="10, 10, 750, 10"  >
                         <TextBlock  VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
                                    Panel.ZIndex="1" Text="Procurar carro..."
-                                   Visibility="Visible"></TextBlock>
+                                   Visibility="Visible" Margin="20,0,0,0"></TextBlock>
                         <TextBox Style="{StaticResource txtSearchBox}" x:Name="txtSearch"></TextBox>
 
                         <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" VerticalAlignment="Center"
-                                               Margin="0 0 15 0" Foreground="#b0b9c6" HorizontalAlignment="Right"></Icon:PackIconMaterial>
+                                               Margin="0 0 20 0" Foreground="#b0b9c6" HorizontalAlignment="Right"></Icon:PackIconMaterial>
 
                     </Grid>
 
 
-                    <Button Width="160" Style="{StaticResource actionButtons}"  Margin="0 0 -150 0"  Grid.Row="2"  >
+                    <Button Width="160" Style="{StaticResource actionButtons}"   HorizontalAlignment="Left" Margin="250 10 10 10"  Grid.Row="2"  >
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Vagas Disponiveis: 1000" />
                         </StackPanel>
 
                     </Button>
-                    <TextBox Style="{StaticResource textBoxField}" Margin="10 0 -290 0" Grid.Row="2"   >
+                    <Grid Width="140"  Margin="270, 10, 30, 10"  >
+
+                        <TextBlock  VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
+Panel.ZIndex="1" Text="Digite a placa"
+Visibility="Visible" Margin="20,0, 0,0"></TextBlock>
+                        <TextBox Style="{StaticResource txtInput}" x:Name="txtSearc1"></TextBox>
 
 
-                    </TextBox>
-                    <Button Style="{StaticResource actionButtons}" Margin="10 0 -425 0"  Grid.Row="2" >
+                    </Grid>
+
+                    <Grid Width="140"  Margin="10, 10, 30, 10"  >
+
+                        <TextBlock  VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
+               Panel.ZIndex="1" Text="Digite a placa"
+               Visibility="Visible" Margin="20,0, 0,0"></TextBlock>
+                        <TextBox Style="{StaticResource txtInput}" x:Name="inputPlate"></TextBox>
+
+
+                    </Grid>
+                    <Grid Width="140"  Margin="520, 10, 30, 10"  >
+
+                        <TextBlock  VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
+Panel.ZIndex="1" Text="Digite a placa"
+Visibility="Visible" Margin="20,0, 0,0"></TextBlock>
+                        <TextBox Style="{StaticResource txtInput}" x:Name="InputTime"></TextBox>
+
+
+                    </Grid>
+
+                    <Button Style="{StaticResource actionButtons}"  Margin="820,25,0,25" HorizontalAlignment="Left" Width="92"  >
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Descrição" />
-                            <Icon:PackIconMaterial Kind="PlusBox" Style="{StaticResource menuButtonIcon}" />
+                            <TextBlock Text="Entrada" />
+                            <Icon:PackIconMaterial Kind="PlusBox" Style="{StaticResource menuButtonIcon}" RenderTransformOrigin="-0.694,0.365" />
                         </StackPanel>
 
                     </Button>
-                    <Button Style="{StaticResource actionButtons}"  Margin="10 0 -560 0" Grid.Row="2" >
+
+                    <Button Background="Red" Style="{StaticResource actionButtons}"  Margin="920,25,0,25" HorizontalAlignment="Left" Width="92"  >
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Descrição" />
-                            <Icon:PackIconMaterial Kind="PlusBox" Style="{StaticResource menuButtonIcon}" />
+                            <TextBlock Text="Saida" />
+                            <Icon:PackIconMaterial Kind="ExitToApp" Style="{StaticResource menuButtonIcon}" RenderTransformOrigin="-0.694,0.365" />
                         </StackPanel>
 
                     </Button>
@@ -139,39 +168,78 @@
                 </Grid>
 
 
-                <Grid Grid.Row="3" Margin="0,0,0,-11" Grid.RowSpan="2" >
 
-                    <Button Width="80" Style="{StaticResource actionButtons}"  Margin="0,0,763,50"  >
-                        <StackPanel Orientation="Horizontal">
-                            <Icon:PackIconMaterial Kind="History" ></Icon:PackIconMaterial>
-                            <TextBlock Text="Ativos"></TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Width="80" Background="Red" Style="{StaticResource actionButtons}"  Margin="0,0,670,50"  >
-                        <StackPanel Orientation="Horizontal">
-                            <Icon:PackIconMaterial Kind="History" ></Icon:PackIconMaterial>
-                            <TextBlock Text="Ativos"></TextBlock>
-                        </StackPanel>
-                    </Button>
-                </Grid>
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="40 35 0 0">
+                    <Button Style="{StaticResource tabButtons}" BorderBrush="#111d31" Content="Ativos" />
+                    <Button Style="{StaticResource tabButtons}"   Content="Finalizados"  />
+                </StackPanel>
 
 
+                <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderTemplate="{DynamicResource DataGridRowHeaderTemplate1}" Grid.Row="3" x:Name="ativos" SelectionChanged="ativos_SelectionChanged" Margin="0,0,0,54" Grid.RowSpan="2"  >
 
-                <DataGrid Grid.Row="5">
                     <DataGrid.Columns>
-                        <DataGridTextColumn>
-                            <DataGridTextColumn.Header>
-                                Hello
-                            </DataGridTextColumn.Header>
-                        </DataGridTextColumn>
+                        <DataGridCheckBoxColumn CanUserResize="False" Width="50" >
+
+                            <DataGridCheckBoxColumn.Header>
+                                <CheckBox/>
+                            </DataGridCheckBoxColumn.Header>
+                        </DataGridCheckBoxColumn>
+
+
+
+                        <DataGridTemplateColumn  Header="Placa" Width="*" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button >
+                                            <Icon:PackIconMaterial Kind="PencilOutline" />
+                                        </Button>
+                                        <Button >
+                                            <Icon:PackIconMaterial Kind="PencilOutline" />
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+
+                        <DataGridTextColumn Header="Hora de entrada" IsReadOnly="True"  Width="*"/>
+
+                        <DataGridTextColumn Header="Hora de saida" IsReadOnly="True"  Width="*"/>
+                        <DataGridTextColumn Header="Duração" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="Tempo cobrado (hora)" IsReadOnly="True" Width="500" MaxWidth="200"/>
+                        <DataGridTextColumn Header="Preço" IsReadOnly="True"  Width="*"/>
+                        <DataGridTextColumn Header="Valor a pagar" IsReadOnly="True"  Width="*"/>
+
+
+
+
                     </DataGrid.Columns>
-
-
                 </DataGrid>
 
 
 
 
+
+                <Border Grid.Row="4" HorizontalAlignment="Right" BorderBrush="#dee4ce" BorderThickness="1"
+                        CornerRadius="5" Padding="5" Margin="0 10 10 10" >
+                    <StackPanel Orientation="Horizontal">
+
+                        <Button Style="{StaticResource paginButton}">
+                            <Icon:PackIconMaterial Kind="ChevronLeft" Style="{StaticResource paginButtonIcon}" />
+                        </Button>
+                        <Button Content="1" Style="{StaticResource paginButton}"></Button>
+                        <Button Content="2" Style="{StaticResource paginButton}"></Button>
+                        <Button Content="3" Style="{StaticResource paginButton}"></Button>
+                        <Button Content="4" Style="{StaticResource paginButton}"></Button>
+                        <Button Content="5" Style="{StaticResource paginButton}"></Button>
+                        <Button Content="6" Style="{StaticResource paginButton}"></Button>
+                        <Button Content="7" Style="{StaticResource paginButton}"></Button>
+
+                        <Rectangle Width="1" Fill="#dee4ec" Margin="3 7"/>
+
+                    </StackPanel>
+                </Border>
             </Grid>
         </Grid>
 

@@ -120,36 +120,28 @@
                         </StackPanel>
 
                     </Button>
-                    <Grid Width="140"  Margin="270, 10, 30, 10"  >
-
-                        <TextBlock  VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
-Panel.ZIndex="1" Text="Digite a placa"
-Visibility="Visible" Margin="20,0, 0,0"></TextBlock>
-                        <TextBox Style="{StaticResource txtInput}" x:Name="txtSearc1"></TextBox>
 
 
-                    </Grid>
-
-                    <Grid Width="140"  Margin="10, 10, 30, 10"  >
+                    <Grid Width="140"  Margin="10, 10, -200, 10"  >
 
                         <TextBlock  VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
                Panel.ZIndex="1" Text="Digite a placa"
                Visibility="Visible" Margin="20,0, 0,0"></TextBlock>
-                        <TextBox Style="{StaticResource txtInput}" x:Name="inputPlate"></TextBox>
+                        <TextBox x:Name="plate" Style="{StaticResource txtInput}"></TextBox>
 
 
                     </Grid>
                     <Grid Width="140"  Margin="520, 10, 30, 10"  >
 
-                        <TextBlock  VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
-Panel.ZIndex="1" Text="Digite a placa"
-Visibility="Visible" Margin="20,0, 0,0"></TextBlock>
-                        <TextBox Style="{StaticResource txtInput}" x:Name="InputTime"></TextBox>
+                        <TextBlock   VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
+Panel.ZIndex="1" Text="Digite o Tempo"
+Visibility="Visible" Margin="20,0, 0,0"/>
+                        <TextBox x:Name="tempo" Style="{StaticResource txtInput}" ></TextBox>
 
 
                     </Grid>
 
-                    <Button Style="{StaticResource actionButtons}"  Margin="820,25,0,25" HorizontalAlignment="Left" Width="92"  >
+                    <Button Click="inputData" Style="{StaticResource actionButtons}"  Margin="820,25,0,25" HorizontalAlignment="Left" Width="92"  >
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Entrada" />
                             <Icon:PackIconMaterial Kind="PlusBox" Style="{StaticResource menuButtonIcon}" RenderTransformOrigin="-0.694,0.365" />
@@ -157,7 +149,7 @@ Visibility="Visible" Margin="20,0, 0,0"></TextBlock>
 
                     </Button>
 
-                    <Button Background="Red" Style="{StaticResource actionButtons}"  Margin="920,25,0,25" HorizontalAlignment="Left" Width="92"  >
+                    <Button Click="saida" Background="Red" Style="{StaticResource actionButtons}"  Margin="920,25,0,25" HorizontalAlignment="Left" Width="92"  >
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Saida" />
                             <Icon:PackIconMaterial Kind="ExitToApp" Style="{StaticResource menuButtonIcon}" RenderTransformOrigin="-0.694,0.365" />
@@ -187,7 +179,18 @@ Visibility="Visible" Margin="20,0, 0,0"></TextBlock>
 
 
 
-                        <DataGridTemplateColumn  Header="Placa" Width="*" >
+
+
+
+                        <DataGridTextColumn Binding="{Binding Placa}" Header="Placa" IsReadOnly="True"  Width="*"/>
+                        <DataGridTextColumn Binding="{Binding Entrada}" Header="Hora de entrada" IsReadOnly="True"  Width="*"/>
+
+                        <DataGridTextColumn Binding="{Binding Saida}" Header="Hora de saida" IsReadOnly="True"  Width="*"/>
+                        <DataGridTextColumn Binding="{Binding Duracao}" Header="Duração" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Binding="{Binding Time}"  Header="Tempo cobrado (hora)" IsReadOnly="True" Width="*" MaxWidth="200"/>
+                        <DataGridTextColumn Binding="{Binding Price}" Header="Preço" IsReadOnly="True"  Width="*"/>
+                        <DataGridTextColumn Binding="{Binding FinalPrice}" Header="Valor a pagar" IsReadOnly="True"  Width="*"/>
+                        <DataGridTemplateColumn Header="Ações" Width="50" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -201,16 +204,6 @@ Visibility="Visible" Margin="20,0, 0,0"></TextBlock>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-
-
-                        <DataGridTextColumn Header="Hora de entrada" IsReadOnly="True"  Width="*"/>
-
-                        <DataGridTextColumn Header="Hora de saida" IsReadOnly="True"  Width="*"/>
-                        <DataGridTextColumn Header="Duração" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Header="Tempo cobrado (hora)" IsReadOnly="True" Width="500" MaxWidth="200"/>
-                        <DataGridTextColumn Header="Preço" IsReadOnly="True"  Width="*"/>
-                        <DataGridTextColumn Header="Valor a pagar" IsReadOnly="True"  Width="*"/>
-
 
 
 

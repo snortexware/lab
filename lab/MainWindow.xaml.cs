@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Text;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,7 +23,6 @@ namespace lab
     public partial class MainWindow : Window
     {
         public ObservableCollection<Carros> CarrosAtivos { get; set; } = new ObservableCollection<Carros>();
-
         public MainWindow()
         {
 
@@ -34,7 +35,6 @@ namespace lab
             var repo = new EstacionamentoRepository();
 
 
-
             var ativosList = repo.GetAtivos();
             foreach (var item in ativosList)
             {
@@ -45,6 +45,8 @@ namespace lab
 
 
         }
+
+
 
         private void saida(object sender, RoutedEventArgs e)
         {
@@ -64,33 +66,48 @@ namespace lab
 
             TimeSpan difference = date - parsed;
 
+            int totalHoras = (int)difference.TotalHours;
+            int totalMinutos = (int)difference.TotalMinutes;
 
-
-            string formatado = $"{(int)difference.TotalHours:D2}:{difference.Minutes:D2}";
-
-
-            selecionado.Duracao = formatado;
-
+            int tempoExcedente = totalMinutos / 60;
 
 
 
+            string TotalFormatado = $"{(int)totalHoras:D2}:{totalMinutos:D2}";
 
+
+            int minutosTolerancia = 10;
+
+
+            int valorNovo = int.Parse(selecionado.PriceRow.Substring(3));
+
+
+
+            if (tempoExcedente > minutosTolerancia)
+            {
+
+                valorNovo++;
+
+            }
+
+            if (totalMinutos < 30)
+            {
+                valorNovo /= 2;
+            }
+
+            string valorNovoFormatado = "R$ " + valorNovo.ToString();
+
+
+
+            selecionado.TotalPrice = valorNovoFormatado;
+            selecionado.Duracao = valorNovoFormatado.ToString();
 
 
             using (var cnn = new EstacionamentoInterface().SimplesDbConnection())
-
-
             {
+                cnn.Open();
 
-
-
-                cnn.Execute(@"UPDATE Estacionamento SET Saida = @saida_ WHERE Placa = @placa_", new { saida_ = saida, placa_ = selecionado.Placa.ToString() });
-
-
-
-
-
-
+                cnn.Execute(@"UPDATE Estacionamento SET Saida = @saida_,Duracao = @duracao_, TotalPrice = @totalpricenew WHERE Placa = @placa_", new { saida_ = saida, placa_ = selecionado.Placa, totalpricenew = valorNovoFormatado, duracao_ = TotalFormatado });
 
 
 
@@ -101,6 +118,7 @@ namespace lab
 
 
         }
+
 
         private void inputData(object sender, RoutedEventArgs e)
         {
@@ -117,39 +135,57 @@ namespace lab
             var value = cnn.Query<int>(@"SELECT Price FROM Prices WHERE Price >= 0");
 
 
-
             foreach (var item in value)
             {
 
-                int b = int.Parse(tempo.Text);
-
-                int value1;
-
-                value1 = b * item;
-
-                MessageBox.Show(item.ToString());
-                MessageBox.Show(b.ToString());
-                MessageBox.Show(value1.ToString());
-
-                MessageBox.Show(value1.ToString());
-
-
-
-                CarrosAtivos.Add(new Carros
+                try
                 {
-                    Placa = plate.Text,
-                    Entrada = entrada,
-                    Time = int.Parse(tempo.Text),
-                    Price = "R$ " + item.ToString(),
-                    FinalPrice = "R$ " + value1.ToString()
 
-                });
+                    int tempoConvertido = int.Parse(tempo.Text);
 
-                plate.Text = string.Empty;
+                    int valorAtual = tempoConvertido * item;
+
+                    string valorAtualConvertido = "R$ " + valorAtual.ToString();
+
+                    string valorConvertidoBanco = "R$ " + item.ToString();
+
+                    string placaInput = plate.Text;
+
+                    int tempoInputConvertido = int.Parse(tempo.Text);
 
 
-                cnn.Execute(@"INSERT INTO Estacionamento(Placa, Entrada) VALUES(@value, @Entrada1);",
-                new { value = plate.Text, Entrada1 = entrada });
+                    CarrosAtivos.Add(new Carros
+                    {
+                        Placa = placaInput,
+                        Entrada = entrada,
+                        TempoEscolhido = tempoInputConvertido,
+                        PriceRow = valorConvertidoBanco,
+                        TotalPrice = valorAtualConvertido
+
+                    });
+
+
+                    cnn.Execute(@"INSERT INTO Estacionamento(Placa, Entrada, TempoEscolhido, PriceRow, TotalPrice) VALUES(@value, @Entrada1, @tempoescolhido, @pricerow, @totalprice);",
+                    new { value = plate.Text, Entrada1 = entrada, tempoescolhido = tempoConvertido, pricerow = valorConvertidoBanco, totalprice = valorAtualConvertido });
+
+
+                    plate.Text = string.Empty;
+                    tempo.Text = string.Empty;
+
+
+                    cnn.Close();
+
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Ocorreu um erro ao processar os dados digitados nos campos");
+
+                }
+
+
+
 
 
             }
@@ -163,10 +199,14 @@ namespace lab
 
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void TemplateTextChanged(object sender, TextChangedEventArgs e)
         {
+            PlaceholderText.Visibility = string.IsNullOrEmpty(plate.Text) ? Visibility.Visible : Visibility.Collapsed;
+            PlaceHolderTempo.Visibility = string.IsNullOrEmpty(tempo.Text) ? Visibility.Visible : Visibility.Collapsed;
 
         }
+
+
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

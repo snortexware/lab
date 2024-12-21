@@ -49,7 +49,7 @@ namespace lab
                     {
                         cnn.Open();
 
-                        cnn.Execute(@"CREATE TABLE IF NOT EXISTS Estacionamento(Placa TEXT NOT NULL, Entrada TEXT NOT NULL, Saida TEXT);");
+                        cnn.Execute(@"CREATE TABLE IF NOT EXISTS Estacionamento(Placa TEXT NOT NULL, Entrada TEXT NOT NULL, Saida TEXT,Duracao TEXT, TempoEscolhido INTEGER, PriceRow VARCHAR(255), TotalPrice VARCHAR(255)) ;");
                         cnn.Execute(@"CREATE TABLE IF NOT EXISTS Prices(Hora INT, Price INT, Validation_start TEXT NOT NULL, Validation_end TEXT NOT NULL);");
                         cnn.Execute("INSERT INTO Prices(Price, Hora, Validation_start, Validation_end) VALUES (@Price, @Hora, @Validation_start, @Validation_end)",
                         new { Price = 2, Hora = 1, Validation_start = "01/01/2024", Validation_end = "31/12/2024" });

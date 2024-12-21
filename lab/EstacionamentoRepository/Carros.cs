@@ -14,11 +14,11 @@ namespace lab
 
         public string Duracao { get; set; }
 
-        public int Time { get; set; }
+        public int TempoEscolhido { get; set; }
 
 
-        public string Price { get; set; }
-        public string FinalPrice { get; set; }
+        public string PriceRow { get; set; }
+        public string TotalPrice { get; set; }
 
 
 

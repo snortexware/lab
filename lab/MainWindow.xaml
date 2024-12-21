@@ -10,6 +10,8 @@
     >
 
 
+
+
     <Border Background="#eff1f3">
 
 
@@ -42,14 +44,15 @@
 
 
 
-                    <StackPanel DockPanel.Dock="Bottom" >
-                        <Button  Style="{StaticResource leftButtons}" Width="27" >
-                            <StackPanel Orientation="Horizontal">
-                            </StackPanel>
-                        </Button>
-                        <Button Style="{StaticResource leftButtons}" >
+                    <StackPanel Margin="0, 10" DockPanel.Dock="Top" VerticalAlignment="Bottom"  >
+                        <Button  Style="{StaticResource leftButtons}" HorizontalAlignment="Center" >
                             <StackPanel Orientation="Horizontal">
                                 <Icon:PackIconMaterial Kind="Cog"  Style="{StaticResource menuButtonIcon}"/>
+                            </StackPanel>
+                        </Button>
+                        <Button HorizontalAlignment="Center" Style="{StaticResource leftButtons}" >
+                            <StackPanel   Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="LogoutVariant" />
                             </StackPanel>
                         </Button>
 
@@ -86,11 +89,19 @@
                 <Grid Grid.Row="2" Margin="0 10 0 10">
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto">
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
 
 
 
-                        </ColumnDefinition>
+
+
+
+
 
 
                     </Grid.ColumnDefinitions>
@@ -98,58 +109,61 @@
                         <RowDefinition Height="85">
 
 
+
+
                         </RowDefinition>
                     </Grid.RowDefinitions>
 
 
-                    <Grid Width="230"  Margin="10, 10, 750, 10"  >
+
+
+
+
+
+
+
+
+
+
+
+                    <Grid Width="280" Grid.Column="1"     >
                         <TextBlock  VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
-                                   Panel.ZIndex="1" Text="Procurar carro..."
-                                   Visibility="Visible" Margin="20,0,0,0"></TextBlock>
+                  Panel.ZIndex="1" Text="Procurar carro..."
+                  Visibility="Visible" Margin="20,0,0,0"></TextBlock>
                         <TextBox Style="{StaticResource txtSearchBox}" x:Name="txtSearch"></TextBox>
 
                         <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" VerticalAlignment="Center"
-                                               Margin="0 0 20 0" Foreground="#b0b9c6" HorizontalAlignment="Right"></Icon:PackIconMaterial>
+                              Margin="0 0 20 0" Foreground="#b0b9c6" HorizontalAlignment="Right"></Icon:PackIconMaterial>
 
                     </Grid>
 
+                    <StackPanel Grid.Column="2" Grid.Row="2"   VerticalAlignment="Center" Orientation="Horizontal"  >
 
-                    <Button Width="160" Style="{StaticResource actionButtons}"   HorizontalAlignment="Left" Margin="250 10 10 10"  Grid.Row="2"  >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Vagas Disponiveis: 1000" />
-                        </StackPanel>
-
-                    </Button>
-
-
-                    <Grid Width="140"  Margin="10, 10, -200, 10"  >
-
-                        <TextBlock  VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
+                        <TextBlock  x:Name="PlaceholderText" VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
                Panel.ZIndex="1" Text="Digite a placa"
-               Visibility="Visible" Margin="20,0, 0,0"></TextBlock>
-                        <TextBox x:Name="plate" Style="{StaticResource txtInput}"></TextBox>
+               Visibility="Visible" Margin="25,0,-150,0"></TextBlock>
+                        <TextBox   x:Name="plate" Style="{StaticResource txtInput}" TextChanged="TemplateTextChanged" ></TextBox>
+                    </StackPanel>
 
 
-                    </Grid>
-                    <Grid Width="140"  Margin="520, 10, 30, 10"  >
+                    <StackPanel Grid.Column="3"  Grid.RowSpan="3" VerticalAlignment="Center" Orientation="Horizontal" >
 
-                        <TextBlock   VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
+                        <TextBlock  x:Name="PlaceHolderTempo"  VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
 Panel.ZIndex="1" Text="Digite o Tempo"
-Visibility="Visible" Margin="20,0, 0,0"/>
-                        <TextBox x:Name="tempo" Style="{StaticResource txtInput}" ></TextBox>
+Visibility="Visible" Margin="25,0,-150,0"/>
+                        <TextBox x:Name="tempo" Style="{StaticResource txtInput}" TextChanged="TemplateTextChanged" ></TextBox>
+                    </StackPanel>
 
 
-                    </Grid>
 
-                    <Button Click="inputData" Style="{StaticResource actionButtons}"  Margin="820,25,0,25" HorizontalAlignment="Left" Width="92"  >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Entrada" />
-                            <Icon:PackIconMaterial Kind="PlusBox" Style="{StaticResource menuButtonIcon}" RenderTransformOrigin="-0.694,0.365" />
-                        </StackPanel>
 
-                    </Button>
 
-                    <Button Click="saida" Background="Red" Style="{StaticResource actionButtons}"  Margin="920,25,0,25" HorizontalAlignment="Left" Width="92"  >
+
+
+
+
+
+                    <Button Grid.Column="4"  Click="saida" Background="Red" Style="{StaticResource actionButtons}"    HorizontalAlignment="Center" Width="90"   >
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Saida" />
                             <Icon:PackIconMaterial Kind="ExitToApp" Style="{StaticResource menuButtonIcon}" RenderTransformOrigin="-0.694,0.365" />
@@ -157,11 +171,18 @@ Visibility="Visible" Margin="20,0, 0,0"/>
 
                     </Button>
 
+                    <Button Grid.Column="5" Grid.Row="5" Click="inputData" Style="{StaticResource actionButtons}"   HorizontalAlignment="Center"  Width="90"   >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock  Text="Entrada" />
+                            <Icon:PackIconMaterial Kind="PlusBox" Style="{StaticResource menuButtonIcon}" RenderTransformOrigin="-0.694,0.365" />
+                        </StackPanel>
+
+                    </Button>
                 </Grid>
 
 
 
-                <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="40 35 0 0">
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5 35 0 0">
                     <Button Style="{StaticResource tabButtons}" BorderBrush="#111d31" Content="Ativos" />
                     <Button Style="{StaticResource tabButtons}"   Content="Finalizados"  />
                 </StackPanel>
@@ -170,7 +191,7 @@ Visibility="Visible" Margin="20,0, 0,0"/>
                 <DataGrid RowStyle="{DynamicResource DataGridRowStyle1}" Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowHeaderTemplate="{DynamicResource DataGridRowHeaderTemplate1}" Grid.Row="3" x:Name="ativos" SelectionChanged="ativos_SelectionChanged" Margin="0,0,0,54" Grid.RowSpan="2"  >
 
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn CanUserResize="False" Width="50" >
+                        <DataGridCheckBoxColumn CanUserResize="False"  Width="60" >
 
                             <DataGridCheckBoxColumn.Header>
                                 <CheckBox/>
@@ -187,9 +208,9 @@ Visibility="Visible" Margin="20,0, 0,0"/>
 
                         <DataGridTextColumn Binding="{Binding Saida}" Header="Hora de saida" IsReadOnly="True"  Width="*"/>
                         <DataGridTextColumn Binding="{Binding Duracao}" Header="Duração" IsReadOnly="True" Width="*"/>
-                        <DataGridTextColumn Binding="{Binding Time}"  Header="Tempo cobrado (hora)" IsReadOnly="True" Width="*" MaxWidth="200"/>
-                        <DataGridTextColumn Binding="{Binding Price}" Header="Preço" IsReadOnly="True"  Width="*"/>
-                        <DataGridTextColumn Binding="{Binding FinalPrice}" Header="Valor a pagar" IsReadOnly="True"  Width="*"/>
+                        <DataGridTextColumn Binding="{Binding TempoEscolhido}"  Header="Tempo cobrado (hora)" IsReadOnly="True" Width="*" MaxWidth="200"/>
+                        <DataGridTextColumn Binding="{Binding PriceRow}" Header="Preço" IsReadOnly="True"  Width="*"/>
+                        <DataGridTextColumn Binding="{Binding TotalPrice}" Header="Valor a pagar" IsReadOnly="True"  Width="*"/>
                         <DataGridTemplateColumn Header="Ações" Width="50" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -235,7 +256,6 @@ Visibility="Visible" Margin="20,0, 0,0"/>
                 </Border>
             </Grid>
         </Grid>
-
 
 
 

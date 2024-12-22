@@ -20,6 +20,8 @@ namespace lab
         public string PriceRow { get; set; }
         public string TotalPrice { get; set; }
 
+        public bool CheckBoxChecked;
+
 
 
 

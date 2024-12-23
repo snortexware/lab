@@ -9,18 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="images\logo.png" />
-    <None Remove="images\logo2.png" />
     <None Remove="images\logolma.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="images\logo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="images\logo2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="images\logolma.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

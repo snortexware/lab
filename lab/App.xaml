@@ -46,12 +46,12 @@
         </Style>
 
 
-        <Style x:Key="actionButtons" TargetType="Button">
+        <Style x:Key="enterButton" TargetType="Button">
 
             <Setter Property="Background" Value="Green"></Setter>
             <Setter Property="Foreground" Value="#ffffff"></Setter>
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-            <Setter Property="Width" Value="92" />
+            <Setter Property="Width" Value="90" />
             <Setter Property="Height" Value="35" />
             <Setter Property="Padding" Value="10 10"></Setter>
             <Setter Property="Margin" Value="10 10"></Setter>
@@ -72,9 +72,53 @@
                 </Setter.Value>
             </Setter>
 
+            <Style.Triggers>
+
+
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="DarkGreen"></Setter>
+                    <Setter Property="Foreground" Value="#ffffff"></Setter>
+                </Trigger>
+            </Style.Triggers>
+
 
         </Style>
+        <Style x:Key="exitButton" TargetType="Button">
 
+            <Setter Property="Background" Value="#e70000"></Setter>
+            <Setter Property="Foreground" Value="#ffffff"></Setter>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Width" Value="90" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Padding" Value="10 10"></Setter>
+            <Setter Property="Margin" Value="10 10"></Setter>
+
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Grid.Row" Value="2" />
+
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="7">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#c50000"></Setter>
+                    <Setter Property="BorderBrush" Value="White"></Setter>
+                </Trigger>
+
+            </Style.Triggers>
+
+
+        </Style>
         <Style x:Key="txtInput" TargetType="TextBox">
             <Setter Property="Background" Value="#2196f3">
 
@@ -219,18 +263,29 @@
 
         </Style>
 
-        <Style x:Key="gridDatFinish" TargetType="Button">
 
-            <Setter Property="Background" Value="Red"></Setter>
-            <Setter Property="BorderBrush" Value="White"></Setter>
-            <Setter Property="Foreground" Value="Black"></Setter>
+
+
+
+        <Style x:Key="gridDataArchive" TargetType="Button">
+
+            <Setter Property="Background" Value="#e70000"></Setter>
+            <Setter Property="Foreground" Value="#ffffff"></Setter>
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Padding" Value="10 10"></Setter>
+            <Setter Property="Margin" Value="10 10"></Setter>
+
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Grid.Row" Value="2" />
+
 
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="7">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
 
@@ -238,66 +293,12 @@
                 </Setter.Value>
             </Setter>
 
-
-        </Style>
-
-        <Style x:Key="gridDataArchive" TargetType="Button" BasedOn="{StaticResource gridDatFinish}">
-
-            <Setter Property="Background" Value="Red"></Setter>
-            <Setter Property="BorderBrush" Value="White"></Setter>
-            <Setter Property="Foreground" Value="Black"></Setter>
-
-
-
-        </Style>
-
-        <Style x:Key="gridDataButton" TargetType="Button">
-            <Setter Property="Width" Value="12"/>
-            <Setter Property="Height" Value="12"/>
-            <Setter Property="VerticalAlignment" Value="Center" />
-
-        </Style>
-
-        <Style x:Key="txtInputs" TargetType="TextBox">
-            <Setter Property="Background" Value="#2196f3">
-
-            </Setter>
-            <Setter Property="Foreground" Value="#ffffff">
-
-            </Setter>
-            <Setter Property="BorderThickness" Value="0">
-
-            </Setter>
-            <Setter Property="FontSize" Value="12">
-
-            </Setter>
-            <Setter Property="Margin" Value="10 50 10 20"/>
-
-
-            <Setter Property="Padding" Value="15 10"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Width" Value="130"></Setter>
-            <Setter Property="Height" Value="35"></Setter>
-            <Setter Property="Grid.Row" Value="2"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Left" />
-
-
-            <Setter Property="Template">
-                <Setter.Value >
-                    <ControlTemplate x:Name="border" TargetType="TextBox">
-                        <Border CornerRadius="7" Background="{TemplateBinding Background}" SnapsToDevicePixels="True"
-                         BorderThickness="1" BorderBrush="#e0e6ed">
-                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden"
-                                   VerticalScrollBarVisibility="Hidden">
-
-                            </ScrollViewer>
-                        </Border>
-
-                    </ControlTemplate>
-
-                </Setter.Value>
-            </Setter>
-
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#c50000"></Setter>
+                    <Setter Property="BorderBrush" Value="White"></Setter>
+                </Trigger>
+            </Style.Triggers>
 
 
         </Style>

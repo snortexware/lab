@@ -16,16 +16,8 @@ namespace lab
 
         public int TempoEscolhido { get; set; }
 
-
         public string PriceRow { get; set; }
         public string TotalPrice { get; set; }
-
-        public bool CheckBoxChecked;
-
-
-
-
-
 
 
 

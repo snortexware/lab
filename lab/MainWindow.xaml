@@ -83,14 +83,14 @@
                         <TextBlock x:Name="PlaceholderText" VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
                                    Panel.ZIndex="1" Text="Digite a placa"
                                    Visibility="Visible" Margin="25,0,-150,0"/>
-                        <TextBox x:Name="plate" Style="{StaticResource txtInput}" TextChanged="TextoVisivel" />
+                        <TextBox Text="{Binding Placa, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource txtInput}" TextChanged="TextoVisivel" />
                     </StackPanel>
 
                     <StackPanel Grid.Column="3" Grid.RowSpan="3" VerticalAlignment="Center" Orientation="Horizontal">
                         <TextBlock x:Name="PlaceHolderTempo" VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
                                    Panel.ZIndex="1" Text="Digite o Tempo"
                                    Visibility="Visible" Margin="25,0,-150,0"/>
-                        <TextBox x:Name="tempo" Style="{StaticResource txtInput}" TextChanged="TextoVisivel" />
+                        <TextBox Text="{Binding Tempo, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource txtInput}" TextChanged="TextoVisivel" />
                     </StackPanel>
 
                     <Button Grid.Column="4" Click="Saida" Style="{StaticResource exitButton}" HorizontalAlignment="Center">

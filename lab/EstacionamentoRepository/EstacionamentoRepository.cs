@@ -7,14 +7,14 @@ using Microsoft.Data.Sqlite;
 
 namespace lab
 {
-    public class EstacionamentoRepository : EstacionamentoInterface
+    public class EstacionamentoRepository
     {
 
         public SqliteConnection cnn;
 
         public EstacionamentoRepository()
         {
-            cnn = SimplesDbConnection();
+            cnn = IEstacionamentoInterface.SimplesDbConnection();
         }
 
         public ObservableCollection<Carros> GetAtivos()

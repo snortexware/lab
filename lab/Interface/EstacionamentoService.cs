@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Windows;
 
 namespace lab.Interface
 {
@@ -10,7 +9,6 @@ namespace lab.Interface
     //###################################
 
 
-
     public class EstacionamentoService : MainWindow
     {
         public string? EntradaData { get; set; }
@@ -19,7 +17,6 @@ namespace lab.Interface
         public string? ValorAtual { get; set; }
 
         public string? ValorConvertidoBanco { get; set; }
-
 
 
         public (bool sucesso, string mensagem) CalculaEntrada(string tempo)

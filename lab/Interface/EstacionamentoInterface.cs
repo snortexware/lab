@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace lab
 {
-    public class EstacionamentoInterface
+    public interface IEstacionamentoInterface
     {
 
         public static string DbFile { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "dados", "Estacionamento.db");
@@ -19,7 +19,7 @@ namespace lab
             return new SqliteConnection(connection);
         }
 
-        public void CreateDb()
+        public static void CreateDb()
         {
 
 
@@ -51,7 +51,13 @@ namespace lab
                         cnn.Execute(@"CREATE TABLE IF NOT EXISTS Prices(Hora INT, Price INT, Validation_start TEXT NOT NULL,
                         Validation_end TEXT NOT NULL);");
                         cnn.Execute("INSERT INTO Prices(Price, Hora, Validation_start, Validation_end) VALUES (@Price, @Hora, @Validation_start, @Validation_end)",
-                        new { Price = 2, Hora = 1, Validation_start = "2024-01-01", Validation_end = "2024-12-31" });
+                        new
+                        {
+                            Price = 2,
+                            Hora = 1,
+                            Validation_start = "2024-01-01",
+                            Validation_end = "2024-12-31"
+                        });
 
 
                         MessageBox.Show("Banco de dados criado com sucesso, pronto para uso");

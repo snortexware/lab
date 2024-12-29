@@ -3,6 +3,7 @@
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:lab"
         mc:Ignorable="av"
         x:Class="lab.MainWindow"
         Background="Transparent"
@@ -10,6 +11,9 @@
         Width="1080"
         WindowState="Maximized"
         WindowStyle="SingleBorderWindow">
+    <Window.DataContext>
+        <local:ViewModelPrincipal />
+    </Window.DataContext>
 
     <Border Background="#eff1f3">
 
@@ -73,8 +77,8 @@
                     <Grid Width="280" Grid.Column="1">
                         <TextBlock VerticalAlignment="Center" Foreground="#b0b9c6" x:Name="procurar" IsHitTestVisible="False"
                                    Panel.ZIndex="1" Text="Procurar carro..."
-                                   Visibility="Visible" Margin="25,0,0,0" />
-                        <TextBox Style="{StaticResource txtSearchBox}" TextChanged="TextoVisivel" x:Name="txtSearch" KeyUp="FiltroSearch" />
+                                   Visibility="{Binding ProcurarVisivel}" Margin="25,0,0,0" />
+                        <TextBox Text="{Binding ProcurarTexto, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource txtSearchBox}"  x:Name="txtSearch" KeyUp="PesquisaTexto" />
                         <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" VerticalAlignment="Center"
                                                Margin="0 0 20 0" Foreground="#b0b9c6" HorizontalAlignment="Right"/>
                     </Grid>
@@ -82,25 +86,25 @@
                     <StackPanel Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal">
                         <TextBlock x:Name="PlaceholderText" VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
                                    Panel.ZIndex="1" Text="Digite a placa"
-                                   Visibility="Visible" Margin="25,0,-150,0"/>
-                        <TextBox Text="{Binding Placa, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource txtInput}" TextChanged="TextoVisivel" />
+                                   Visibility="{Binding PlacaVisivel}" Margin="25,0,-150,0"/>
+                        <TextBox Text="{Binding PlacaTexto, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource txtInput}"  />
                     </StackPanel>
 
                     <StackPanel Grid.Column="3" Grid.RowSpan="3" VerticalAlignment="Center" Orientation="Horizontal">
                         <TextBlock x:Name="PlaceHolderTempo" VerticalAlignment="Center" Foreground="#ffffff" IsHitTestVisible="False"
-                                   Panel.ZIndex="1" Text="Digite o Tempo"
-                                   Visibility="Visible" Margin="25,0,-150,0"/>
-                        <TextBox Text="{Binding Tempo, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource txtInput}" TextChanged="TextoVisivel" />
+               Panel.ZIndex="1" Text="Digite o Tempo"
+               Visibility="{Binding TempoVisivel}" Margin="25,0,-150,0"/>
+                        <TextBox Text="{Binding TempoTexto, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource txtInput}" />
                     </StackPanel>
 
-                    <Button Grid.Column="4" Click="Saida" Style="{StaticResource exitButton}" HorizontalAlignment="Center">
+                    <Button Cursor="Hand" Grid.Column="4" Command="{Binding SaidaCommand}" Style="{StaticResource exitButton}" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Saida" />
                             <Icon:PackIconMaterial Kind="ExitToApp" Style="{StaticResource menuButtonIcon}" RenderTransformOrigin="-0.694,0.365" />
                         </StackPanel>
                     </Button>
 
-                    <Button Grid.Column="5" Grid.Row="5" Click="Entrada" Style="{StaticResource enterButton}" HorizontalAlignment="Center">
+                    <Button Cursor="Hand" Grid.Column="5" Grid.Row="5" Command="{Binding EntradaCommand}" Style="{StaticResource enterButton}" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Entrada" />
                             <Icon:PackIconMaterial Kind="PlusBox" Style="{StaticResource menuButtonIcon}" RenderTransformOrigin="-0.694,0.365" />
@@ -108,14 +112,19 @@
                     </Button>
                 </Grid>
 
-                <DataGrid ItemsSource="{Binding MostraRows}" RowStyle="{DynamicResource DataGridRowStyle1}" Style="{DynamicResource DataGridStyle1}"
+                <DataGrid SelectedItem="{Binding SelecionaCarros, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding MostraRows}" RowStyle="{DynamicResource DataGridRowStyle1}" Style="{DynamicResource DataGridStyle1}"
                           CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
                           RowHeaderTemplate="{DynamicResource DataGridRowHeaderTemplate1}" Grid.Row="3" x:Name="ativos" Margin="0,0,0,34">
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn CanUserResize="False" Width="60">
+                        <DataGridCheckBoxColumn Width="60">
                             <DataGridCheckBoxColumn.Header>
-                                <TextBlock Text="Seleciona"/>
+                                <CheckBox 
+                          IsChecked="{Binding IsSelectAll, Mode=TwoWay}" 
+                          Click="SelectAll_Checked" />
                             </DataGridCheckBoxColumn.Header>
+                            <DataGridCheckBoxColumn.Binding>
+                                <Binding Path="IsSelected" Mode="TwoWay"/>
+                            </DataGridCheckBoxColumn.Binding>
                         </DataGridCheckBoxColumn>
 
                         <DataGridTextColumn Binding="{Binding Placa}" Header="Placa" IsReadOnly="True" Width="*" />

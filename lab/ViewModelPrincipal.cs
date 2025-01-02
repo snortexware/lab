@@ -3,6 +3,7 @@ using System.ComponentModel;
 using lab.Interface;
 using System.Windows.Input;
 using System.Windows;
+using System.Runtime.CompilerServices;
 
 namespace lab
 {
@@ -56,7 +57,7 @@ namespace lab
 
                     _isselected = value;
 
-                    OnPropertyChanged(nameof(IsSelectAll));
+                    OnPropertyChanged();
 
                     foreach (var carro in MostraRows)
                     {
@@ -83,7 +84,7 @@ namespace lab
                 if (_placaTexto != value)
                 {
                     _placaTexto = value;
-                    OnPropertyChanged(nameof(PlacaTexto));
+                    OnPropertyChanged();
                     AtualizarTextoVisivel();
                 }
             }
@@ -99,7 +100,7 @@ namespace lab
                 {
                     _tempotexto = value;
                     AtualizarTextoVisivel();
-                    OnPropertyChanged(nameof(TempoTexto));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -124,7 +125,7 @@ namespace lab
             set
             {
                 _mostraRows = value;
-                OnPropertyChanged(nameof(MostraRows));
+                OnPropertyChanged();
             }
         }
 
@@ -147,7 +148,7 @@ namespace lab
                 if (_placavisivel != value)
                 {
                     _placavisivel = value;
-                    OnPropertyChanged(nameof(PlacaVisivel));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -162,7 +163,7 @@ namespace lab
                 {
 
                     _tempovisivel = value;
-                    OnPropertyChanged(nameof(TempoVisivel));
+                    OnPropertyChanged();
                     AtualizarTextoVisivel();
                 }
 
@@ -178,7 +179,7 @@ namespace lab
                 {
 
                     _procurarvisivel = value;
-                    OnPropertyChanged(nameof(ProcurarVisivel));
+                    OnPropertyChanged();
                     AtualizarTextoVisivel();
                 }
 
@@ -270,9 +271,7 @@ namespace lab
 
             MostraRows = Original;
 
-            OnPropertyChanged(nameof(MostraRows));
-            OnPropertyChanged(nameof(PlacaTexto));
-            OnPropertyChanged(nameof(TempoTexto));
+            OnPropertyChanged();
 
             MessageBox.Show("Carro adicionado com sucesso");
 
@@ -284,7 +283,7 @@ namespace lab
             if (SelecionaCarros is not null)
             {
                 ProcessaSaida();
-                OnPropertyChanged(nameof(MostraRows));
+                OnPropertyChanged();
 
             }
             else
@@ -332,7 +331,7 @@ namespace lab
                       dadosSaida.DuracaoFinal
                     );
 
-                    OnPropertyChanged(nameof(MostraRows));
+                    OnPropertyChanged();
                 }
 
             }
@@ -345,7 +344,7 @@ namespace lab
 
             await respositorio.TransferirInativo(SelecionaCarros.Placa);
 
-            OnPropertyChanged(nameof(Original));
+            OnPropertyChanged();
 
             var inativo = Original.FirstOrDefault(carro => carro.Placa == SelecionaCarros.Placa);
 
@@ -380,14 +379,14 @@ namespace lab
 
                 MostraRows = Filtrado;
 
-                OnPropertyChanged(nameof(MostraRows));
+                OnPropertyChanged();
             }
 
         }
 
-        protected void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged([CallerMemberName] string Propriedade = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Propriedade));
         }
     }
 

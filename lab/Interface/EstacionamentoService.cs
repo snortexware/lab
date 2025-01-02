@@ -29,7 +29,7 @@ namespace lab.Interface
             if (valorDb == 0)
             {
 
-                return (false, "Ouve um erro ao buscar valor do banco de dados");
+                return (false, "Houve um erro ao buscar valor do banco de dados. Talvez o valor de tabela não esteja atualizado?");
 
             }
             bool verifacaoPrincipal = int.TryParse(tempo, out int tempoEntradaConvertido) || tempoEntradaConvertido == 0;
@@ -69,58 +69,61 @@ namespace lab.Interface
         public (bool sucesso, string mensagem) CalculaSaida(Carros selecionado)
         {
 
-
-            if (selecionado is not null)
+            if (selecionado is null && selecionado.Saida != "Aguardando...")
             {
-                DateTime dataAtual = DateTime.Now;
-
-                Saida = dataAtual.ToString("dd/MM/yyyy HH:mm:ss");
-
-                var dataEntradaStr = selecionado.Entrada;
-
-                DateTime.TryParseExact(dataEntradaStr, "dd/MM/yyyy HH:mm:ss",
-                CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataEntrada);
-
-                TimeSpan DataSubtraida = dataAtual - dataEntrada;
-
-                int totalHoras = (int)DataSubtraida.TotalHours;
-
-                int totalMinutos = (int)DataSubtraida.TotalMinutes;
-
-                int minutosFormatados = totalMinutos % 60;
-
-                DuracaoFinal = $"{totalHoras:D2}:{minutosFormatados:D2}";
-
-
-                string valorNaoEspecial = selecionado.PriceRow.Replace("0", "").Replace(",", "");
-
-                int valorNovoSaida = int.Parse(valorNaoEspecial.Substring(3));
-
-                int minutosTolerancia = 10;
-
-                if (minutosFormatados > minutosTolerancia)
-                {
-
-                    valorNovoSaida++;
-
-                }
-
-                if (totalMinutos < 30)
-                {
-                    valorNovoSaida /= 2;
-                }
-
-                ValorNovoFormatadoSaida = valorNovoSaida.ToString("C", new CultureInfo("pt-BR"));
-
-
-                return (true, "Todos os calculos finalizados com sucesso, continuando...");
-
-            }
-            else
-            {
-                return (false, "Selecione um objeto antes de continuar");
+                return (false, "Selecione um carro ativo ou valido antes de continuar");
             }
 
+
+            DateTime dataAtual = DateTime.Now;
+
+            Saida = dataAtual.ToString("dd/MM/yyyy HH:mm:ss");
+
+            var dataEntradaStr = selecionado.Entrada;
+
+            if (!DateTime.TryParseExact(dataEntradaStr, "dd/MM/yyyy HH:mm:ss",
+            CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataEntrada))
+            {
+                return (false, "Erro ao converter data ao processar saida");
+
+            };
+
+            TimeSpan DataSubtraida = dataAtual - dataEntrada;
+
+            int totalHoras = (int)DataSubtraida.TotalHours;
+
+            int totalMinutos = (int)DataSubtraida.TotalMinutes;
+
+            int minutosFormatados = totalMinutos % 60;
+
+            DuracaoFinal = $"{totalHoras:D2}:{minutosFormatados:D2}";
+
+            string valorNaoEspecial = selecionado.PriceRow.Replace("0", "").Replace(",", "");
+
+            int valorNovoSaida = int.Parse(valorNaoEspecial.Substring(3));
+
+            int valorFinal = valorNovoSaida * totalHoras;
+
+            int minutosTolerancia = 10;
+
+            if (minutosFormatados > minutosTolerancia)
+            {
+
+                valorFinal++;
+
+            }
+
+            if (totalMinutos < 30)
+            {
+                valorNovoSaida /= 2;
+
+            }
+
+            ValorNovoFormatadoSaida = totalMinutos < 30
+            ? valorNovoSaida.ToString("C", new CultureInfo("pt-BR"))
+            : valorFinal.ToString("C", new CultureInfo("pt-BR"));
+
+            return (true, "Todos os calculos finalizados com sucesso, continuando...");
 
         }
 

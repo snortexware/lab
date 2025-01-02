@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.Data.SqlClient;
 using System.Windows;
-using ControlzEx.Standard;
 using Dapper;
 using Microsoft.Data.Sqlite;
 
@@ -53,12 +51,12 @@ namespace lab
 
         }
 
-        public void AtualizaEntrada(string placa, string entradaData, int tempoescolhido, string valorAtual, string totalprice)
+        public async Task AtualizaEntrada(string placa, string entradaData, int tempoescolhido, string valorAtual, string totalprice)
         {
 
             cnn.Open();
 
-            cnn.Execute(@"INSERT INTO Estacionamento(Placa, Entrada, TempoEscolhido, PriceRow,
+            await cnn.ExecuteAsync(@"INSERT INTO Estacionamento(Placa, Entrada, TempoEscolhido, PriceRow,
             TotalPrice, Status) VALUES(@_placa, @_entrada, @_tempoEscolhido, @_pricerow, @_totalprice, @_status);",
             new
             {
@@ -74,12 +72,12 @@ namespace lab
 
         }
 
-        public void AtualizaSaida(string saida, string placa, string valorNovoFormatado, string duracao)
+        public async Task AtualizaSaida(string saida, string placa, string valorNovoFormatado, string duracao)
         {
 
             cnn.Open();
 
-            cnn.Execute(@"UPDATE Estacionamento SET Saida = @saida_,Duracao = @duracao_, TotalPrice = @totalpricenew,
+            await cnn.ExecuteAsync(@"UPDATE Estacionamento SET Saida = @saida_,Duracao = @duracao_, TotalPrice = @totalpricenew,
             Status = @_status WHERE Placa = @placa_",
             new
             {
@@ -89,6 +87,46 @@ namespace lab
                 duracao_ = duracao,
                 _status = "finalizado"
             });
+
+            cnn.Close();
+
+        }
+        public async Task TransferirInativo(string placa)
+        {
+            cnn.Open();
+
+
+            var carroAtivo = await cnn.QueryAsync(@"SELECT * FROM Estacionamento WHERE Placa = @_placa", new
+            {
+                _placa = placa
+            });
+
+            string transferAtivo = @"
+            INSERT INTO Inativos (Placa, Entrada, Saida, Duracao, Status, TempoEscolhido, PriceRow, TotalPrice) 
+            VALUES (@Placa, @Entrada, @Saida, @Duracao, @Status, @TempoEscolhido, @PriceRow, @TotalPrice)";
+
+            foreach (var car in carroAtivo)
+            {
+                var parameters = new
+                {
+                    car.Placa,
+                    car.Entrada,
+                    car.Saida,
+                    car.Duracao,
+                    car.Status,
+                    car.TempoEscolhido,
+                    car.PriceRow,
+                    car.TotalPrice
+                };
+
+                await cnn.ExecuteAsync(transferAtivo, parameters);
+            }
+
+            await cnn.ExecuteAsync(@"DELETE FROM Estacionamento WHERE Placa = @_placa", new
+            {
+                _placa = placa
+            });
+
 
             cnn.Close();
 

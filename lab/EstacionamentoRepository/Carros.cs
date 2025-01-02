@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.ComponentModel;
 
 namespace lab
@@ -25,7 +26,7 @@ namespace lab
                 if (_isselect != value)
                 {
                     _isselect = value;
-                    OnPropertyChanged(nameof(IsSelected));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -37,7 +38,7 @@ namespace lab
                 if (_placa != value)
                 {
                     _placa = value;
-                    OnPropertyChanged(nameof(Placa));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -50,7 +51,7 @@ namespace lab
                 if (_entrada != value)
                 {
                     _entrada = value;
-                    OnPropertyChanged(nameof(Entrada));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -63,7 +64,7 @@ namespace lab
                 if (_saida != value)
                 {
                     _saida = value;
-                    OnPropertyChanged(nameof(Saida));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -76,7 +77,7 @@ namespace lab
                 if (_duracao != value)
                 {
                     _duracao = value;
-                    OnPropertyChanged(nameof(Duracao));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -89,7 +90,7 @@ namespace lab
                 if (_tempoEscolhido != value)
                 {
                     _tempoEscolhido = value;
-                    OnPropertyChanged(nameof(TempoEscolhido));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -102,7 +103,7 @@ namespace lab
                 if (_priceRow != value)
                 {
                     _priceRow = value;
-                    OnPropertyChanged(nameof(PriceRow));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -115,13 +116,13 @@ namespace lab
                 if (_totalPrice != value)
                 {
                     _totalPrice = value;
-                    OnPropertyChanged(nameof(TotalPrice));
+                    OnPropertyChanged();
                 }
             }
         }
-        protected void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged([CallerMemberName] string Propriedade = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Propriedade));
         }
     }
 }

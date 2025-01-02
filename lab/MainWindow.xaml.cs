@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 
@@ -22,11 +23,23 @@ namespace lab
         private void PesquisaTexto(object sender, KeyEventArgs e)
         {
 
+
             var viewModel = (ViewModelPrincipal)DataContext;
 
             viewModel.FiltroSearch();
 
         }
+
+        private void Click(object sender, RoutedEventArgs e)
+        {
+
+
+            var viewModel = (ViewModelPrincipal)DataContext;
+
+            viewModel.AtualizaInativos();
+
+        }
+
 
         private void SelectAll_Checked(object sender, RoutedEventArgs e)
         {
@@ -37,16 +50,12 @@ namespace lab
             {
 
                 viewModel.IsSelectAll = false;
-
-
             }
             else
             {
                 viewModel.IsSelectAll = true;
 
             }
-
-
 
         }
 

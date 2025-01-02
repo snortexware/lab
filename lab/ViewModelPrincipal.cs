@@ -9,8 +9,16 @@ namespace lab
     public class ViewModelPrincipal : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private ObservableCollection<Carros>? Filtrado { get; set; }
-        public ObservableCollection<Carros> Original { get; set; } = new ObservableCollection<Carros>();
+        private ObservableCollection<Carros>? Filtrado
+        {
+            get;
+            set;
+        }
+        public ObservableCollection<Carros> Original
+        {
+            get;
+            set;
+        } = new ObservableCollection<Carros>();
 
         private ObservableCollection<Carros>? _mostraRows;
 
@@ -22,11 +30,18 @@ namespace lab
 
         private Visibility _procurarvisivel = Visibility.Visible;
 
-        public ICommand EntradaCommand { get; }
-        public ICommand SaidaCommand { get; }
-        public ICommand FiltroSearchCommand { get; }
-        public ICommand AtualizarTextoVisivelCommand { get; }
-        public ICommand ProcessaDataBind { get; }
+        public ICommand EntradaCommand
+        {
+            get;
+        }
+        public ICommand SaidaCommand
+        {
+            get;
+        }
+        public ICommand AtualizaCommand
+        {
+            get;
+        }
 
         private bool _isselected;
 
@@ -50,11 +65,9 @@ namespace lab
 
                     }
 
-
                 }
             }
         }
-
 
         private string _placaTexto;
 
@@ -70,7 +83,7 @@ namespace lab
                 if (_placaTexto != value)
                 {
                     _placaTexto = value;
-                    OnPropertyChanged(PlacaTexto);
+                    OnPropertyChanged(nameof(PlacaTexto));
                     AtualizarTextoVisivel();
                 }
             }
@@ -86,11 +99,10 @@ namespace lab
                 {
                     _tempotexto = value;
                     AtualizarTextoVisivel();
-                    OnPropertyChanged(TempoTexto);
+                    OnPropertyChanged(nameof(TempoTexto));
                 }
             }
         }
-
 
         public string ProcurarTexto
         {
@@ -106,8 +118,6 @@ namespace lab
             }
         }
 
-
-
         public ObservableCollection<Carros> MostraRows
         {
             get => _mostraRows;
@@ -117,8 +127,6 @@ namespace lab
                 OnPropertyChanged(nameof(MostraRows));
             }
         }
-
-
 
         public Carros SelecionaCarros
         {
@@ -130,7 +138,6 @@ namespace lab
 
             }
         }
-
 
         public Visibility PlacaVisivel
         {
@@ -159,7 +166,6 @@ namespace lab
                     AtualizarTextoVisivel();
                 }
 
-
             }
         }
 
@@ -179,28 +185,15 @@ namespace lab
             }
         }
 
-
         public ViewModelPrincipal()
         {
-
             EntradaCommand = new RelayCommand(Entrada1);
             SaidaCommand = new RelayCommand(Saida1);
-
-
             ProcessaData(null);
-
-
-
-
-
         }
-
-
 
         public void ProcessaData(object parameter)
         {
-
-
 
             IEstacionamentoInterface.CreateDb();
 
@@ -224,19 +217,18 @@ namespace lab
             {
 
                 ProcessaEntrada();
+
             }
-            catch (Exception ex)
+            catch
             {
 
-                MessageBox.Show(ex.Message, "O seguinte erro ao processar a data aconteceu:");
-
+                MessageBox.Show("Houve um erro ao processar a entrada");
             }
 
         }
 
         private void ProcessaEntrada()
         {
-            MessageBox.Show(TempoTexto);
 
             var dadosEntrada = new EstacionamentoService();
 
@@ -268,15 +260,13 @@ namespace lab
             });
 
             repositorio.AtualizaEntrada(PlacaTexto,
-                dadosEntrada.EntradaData,
-                dadosEntrada.TempoEntradaConvertido,
-                dadosEntrada.ValorConvertidoBanco,
-                dadosEntrada.ValorAtual);
-
+              dadosEntrada.EntradaData,
+              dadosEntrada.TempoEntradaConvertido,
+              dadosEntrada.ValorConvertidoBanco,
+              dadosEntrada.ValorAtual);
 
             PlacaTexto = string.Empty;
             TempoTexto = string.Empty;
-
 
             MostraRows = Original;
 
@@ -284,6 +274,7 @@ namespace lab
             OnPropertyChanged(nameof(PlacaTexto));
             OnPropertyChanged(nameof(TempoTexto));
 
+            MessageBox.Show("Carro adicionado com sucesso");
 
         }
 
@@ -302,30 +293,68 @@ namespace lab
 
             }
 
-
         }
 
         private void ProcessaSaida()
         {
-
+            IEnumerable<Carros> carroSelecionado = Original.Where(SelecionaCarros => SelecionaCarros.IsSelected == true);
 
             var dadosSaida = new EstacionamentoService();
             var repositorio = new EstacionamentoRepository();
 
-            dadosSaida.CalculaSaida(SelecionaCarros);
-
-            SelecionaCarros.TotalPrice = dadosSaida.ValorNovoFormatadoSaida;
-            SelecionaCarros.Duracao = dadosSaida.DuracaoFinal;
-            SelecionaCarros.Saida = dadosSaida.Saida;
+            foreach (var carro in carroSelecionado)
+            {
 
 
 
+                dadosSaida.CalculaSaida(carro);
 
-            repositorio.AtualizaSaida(dadosSaida.Saida, SelecionaCarros.Placa, dadosSaida.ValorNovoFormatadoSaida, dadosSaida.DuracaoFinal);
-            OnPropertyChanged(nameof(MostraRows));
+                var resultado = dadosSaida.CalculaSaida(carro);
 
+                if (!resultado.sucesso)
+                {
+
+                    MessageBox.Show(resultado.mensagem);
+
+                    return;
+
+                }
+
+                if (carro.Saida == "Aguardando...")
+                {
+                    carro.TotalPrice = dadosSaida.ValorNovoFormatadoSaida;
+                    carro.Duracao = dadosSaida.DuracaoFinal;
+                    carro.Saida = dadosSaida.Saida;
+
+                    repositorio.AtualizaSaida(
+                      dadosSaida.Saida, carro.Placa,
+                      dadosSaida.ValorNovoFormatadoSaida,
+                      dadosSaida.DuracaoFinal
+                    );
+
+                    OnPropertyChanged(nameof(MostraRows));
+                }
+
+            }
         }
 
+        public async Task AtualizaInativos()
+        {
+
+            var respositorio = new EstacionamentoRepository();
+
+            await respositorio.TransferirInativo(SelecionaCarros.Placa);
+
+            OnPropertyChanged(nameof(Original));
+
+            var inativo = Original.FirstOrDefault(carro => carro.Placa == SelecionaCarros.Placa);
+
+            if (inativo is not null)
+            {
+                Original.Remove(inativo);
+            }
+
+        }
 
         public void AtualizarTextoVisivel()
         {
@@ -333,7 +362,6 @@ namespace lab
             TempoVisivel = string.IsNullOrEmpty(TempoTexto) ? Visibility.Visible : Visibility.Collapsed;
             ProcurarVisivel = string.IsNullOrEmpty(ProcurarTexto) ? Visibility.Visible : Visibility.Collapsed;
         }
-
 
         public void FiltroSearch()
         {
@@ -355,7 +383,6 @@ namespace lab
                 OnPropertyChanged(nameof(MostraRows));
             }
 
-
         }
 
         protected void OnPropertyChanged(string propertyName)
@@ -364,15 +391,4 @@ namespace lab
         }
     }
 
-
 }
-
-
-
-
-
-
-
-
-
-
